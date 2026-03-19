@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/Workflows/">
+    <File Path=".github/workflows/build-release.yaml" />
+    <File Path=".github/workflows/build-validator.yaml" />
+  </Folder>
+  <Project Path="SQLLookupTool/SQLLookupTool.csproj" Id="99b0b5d3-36ff-4f5a-9d5f-beaa6533b1c3" />
+</Solution>

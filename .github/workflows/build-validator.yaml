@@ -78,4 +78,7 @@ jobs:
                 "> Build issue - ${{env.ProjectName}}.exe Not Found :exclamation:" >> $env:GITHUB_STEP_SUMMARY
                 Write-Error "::error Build issue - ${{env.ProjectName}}.exe Not Found"
                 exit 1
+            } else {
+                Write-Host "Build Succeeded - ${{env.ProjectName}}.exe Found"
+                "> Build Succeeded - ${{env.ProjectName}}.exe created :white_check_mark:" >> $env:GITHUB_STEP_SUMMARY
             }
