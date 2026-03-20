@@ -53,7 +53,7 @@ env:
   BuildRefName          : '${{github.ref_name}}'
   BuildNewVersion       : ''
   BuildNewVersionInfo   : ''
-  AssemblyInfoPath      : './src/Properties/AssemblyInfo.cs'
+  AssemblyInfoPath      : './SQLLookupTool/Properties/AssemblyInfo.cs'
 
 
 permissions:
