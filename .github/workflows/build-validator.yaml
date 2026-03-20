@@ -39,8 +39,8 @@ jobs:
             Write-Host "${{env.ProjectName}}: Build Validator"
             Write-Host "Branch: ${{github.ref_name}}"
             "## ${{env.ProjectName}}: Build Validator" >> $env:GITHUB_STEP_SUMMARY
-            "- Branch: ${{github.ref_name}}" >> $env:GITHUB_STEP_SUMMARY
-            "- Raised by: ${{github.actor}}" >> $env:GITHUB_STEP_SUMMARY
+            "- Branch: ``${{github.ref_name}}``" >> $env:GITHUB_STEP_SUMMARY
+            "- Raised by: ``${{github.actor}}``" >> $env:GITHUB_STEP_SUMMARY
 
 
       # Checkout first, this setups the build environment
@@ -75,7 +75,10 @@ jobs:
         shell: pwsh
         run: |
             if (!(Test-Path -PathType Leaf -Path '${{env.BuildOutputPath}}\${{env.ProjectName}}.exe')) {
-                "> Build issue - ${{env.ProjectName}}.exe Not Found :exclamation:" >> $env:GITHUB_STEP_SUMMARY
-                Write-Error "::error Build issue - ${{env.ProjectName}}.exe Not Found"
+                "> [!WARNING] `n> Build issue - ``${{env.ProjectName}}.exe`` Not Found :exclamation:" >> $env:GITHUB_STEP_SUMMARY
+                Write-Output "::error file=${{env.ProjectName}}.exe,title=Build Issue::Output Not Found"
                 exit 1
+            } else {
+                "> [!TIP] `n> Build Succeeded - ``${{env.ProjectName}}.exe`` created :white_check_mark:" >> $env:GITHUB_STEP_SUMMARY
+                Write-Host "Build Succeeded - ${{env.ProjectName}}.exe Found"
             }
