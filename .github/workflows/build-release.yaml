@@ -77,7 +77,7 @@ jobs:
             "- Version Explicit: ``${{inputs.version_explicit}}``" >> $env:GITHUB_STEP_SUMMARY
 
       - name: Check Build Confirmed
-        if: ${{!inputs.perform_job}}
+        if: ${{github.event_name == 'workflow_dispatch' && !inputs.perform_job}}
         shell: pwsh
         run: |
             "> [!WARNING] `n> Build Not Confirmed :exclamation:" >> $env:GITHUB_STEP_SUMMARY
@@ -85,7 +85,7 @@ jobs:
             exit 1
 
       - name: Check Build Verion Set
-        if: ${{!inputs.version_change == 'Manual' && inputs.version_explicit == ''}}
+        if: ${{github.event_name == 'workflow_dispatch' && !inputs.version_change == 'Manual' && inputs.version_explicit == ''}}
         shell: pwsh
         run: |
             "> [!WARNING] `n> Build Manual Version not Set :exclamation:" >> $env:GITHUB_STEP_SUMMARY
@@ -123,7 +123,7 @@ jobs:
 
       # 2.1) Increment Revision number
       - name: Update Project Build Version - Major
-        if: inputs.version_change == 'Major'
+        if: ${{inputs.version_change == 'Major'}}
         id: updateversion_major
         uses: vers-one/dotnet-project-version-updater@v1.8
         with:
@@ -132,7 +132,7 @@ jobs:
           version: "^.0.0"
 
       - name: Update Project Build Version - Minor
-        if: inputs.version_change == 'Minor'
+        if: ${{github.event_name != 'workflow_dispatch' || inputs.version_change == 'Minor'}}
         id: updateversion_minor
         uses: vers-one/dotnet-project-version-updater@v1.8
         with:
@@ -141,7 +141,7 @@ jobs:
           version: "*.^.0"
 
       - name: Update Project Build Version - Build
-        if: inputs.version_change == 'Build'
+        if: ${{inputs.version_change == 'Build'}}
         id: updateversion_build
         uses: vers-one/dotnet-project-version-updater@v1.8
         with:
@@ -150,7 +150,7 @@ jobs:
           version: "*.*.^"
 
       - name: Update Project Build Version - Manual
-        if: inputs.version_change == 'Manual'
+        if: ${{inputs.version_change == 'Manual'}}
         id: updateversion_manual
         uses: vers-one/dotnet-project-version-updater@v1.8
         with:
@@ -167,15 +167,13 @@ jobs:
             $VersionChange = '${{inputs.version_change}}'
             if ($VersionChange -eq 'Major') {
                 $BuildNewVersionNew = '${{steps.updateversion_major.outputs.newVersion}}'
-            } elseif ($VersionChange -eq 'Minor') {
-                $BuildNewVersionNew = '${{steps.updateversion_minor.outputs.newVersion}}'
             } elseif ($VersionChange -eq 'Build') {
                 $BuildNewVersionNew = '${{steps.updateversion_build.outputs.newVersion}}'
             } elseif ($VersionChange -eq 'Manual') {
                 $BuildNewVersionNew = '${{steps.updateversion_manual.outputs.newVersion}}'
             } else {
-                Write-Output "::error title=Build Checks::Version Change Input Issue"
-                exit 1
+                # ($VersionChange -eq 'Minor')
+                $BuildNewVersionNew = '${{steps.updateversion_minor.outputs.newVersion}}'
             }
 
             if($BuildRefNameNew.Contains("/")) {$BuildRefNameNew = $BuildRefNameNew.Replace("/", "-")}
