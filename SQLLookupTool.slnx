@@ -1,6 +1,8 @@
 <Solution>
   <Folder Name="/Solution Items/">
+    <File Path="ConnectionStringDesignerWindow.png" />
     <File Path="README.md" />
+    <File Path="SQLLookupToolWindow.png" />
   </Folder>
   <Folder Name="/Solution Items/Workflows/">
     <File Path=".github/workflows/build-release.yaml" />
