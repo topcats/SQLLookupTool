@@ -46,7 +46,7 @@ namespace SQLLookupTool
                 this.chkSecurity.Enabled = false;
             }
 
-            // Set Secruity Type
+            // Set Security Type
             if (this.chkSecurity.Enabled && this.chkSecurity.Checked)
             {
                 this.lblUsername.Enabled = false;
@@ -98,6 +98,9 @@ namespace SQLLookupTool
         }
 
 
+        /// <summary>
+        /// Database Type based on the selected radio button. Defaults to MSSQL if none are selected.
+        /// </summary>
         public CSTypeList DatabaseType
         {
             get
@@ -106,6 +109,9 @@ namespace SQLLookupTool
             }
         }
 
+        /// <summary>
+        /// Database Server name
+        /// </summary>
         public string ServerName
         {
             get
@@ -114,6 +120,9 @@ namespace SQLLookupTool
             }
         }
 
+        /// <summary>
+        /// Database Name or Service Name depending on the selected database type
+        /// </summary>
         public string DatabaseName
         {
             get
@@ -122,14 +131,20 @@ namespace SQLLookupTool
             }
         }
 
+        /// <summary>
+        /// Database Integrated Security (Windows Authentication) enabled or not
+        /// </summary>
         public bool Security
         {
             get
             {
-                return this.chkSecurity.Checked;
+                return this.chkSecurity.Enabled && this.chkSecurity.Checked;
             }
         }
 
+        /// <summary>
+        /// Database Username
+        /// </summary>
         public string UserName
         {
             get
@@ -138,6 +153,9 @@ namespace SQLLookupTool
             }
         }
 
+        /// <summary>
+        /// Database Password
+        /// </summary>
         public string Password
         {
             get
